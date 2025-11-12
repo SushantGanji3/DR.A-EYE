@@ -13,7 +13,8 @@ from pathlib import Path
 import traceback
 
 # Add model directory to path
-sys.path.append(str(Path(__file__).parent.parent / 'model'))
+model_path = Path(__file__).parent.parent / 'model'
+sys.path.insert(0, str(model_path))
 
 from model import DiabeticRetinopathyModel
 
