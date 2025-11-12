@@ -10,24 +10,29 @@ def check_python_packages():
     """Check if all required Python packages are installed"""
     print("Checking Python packages...")
     required_packages = [
-        'torch', 'torchvision', 'numpy', 'pandas', 'Pillow',
-        'matplotlib', 'seaborn', 'sklearn', 'jupyter', 'flask',
-        'flask_cors', 'requests', 'tqdm'
+        ('torch', 'torch'),
+        ('torchvision', 'torchvision'),
+        ('numpy', 'numpy'),
+        ('pandas', 'pandas'),
+        ('Pillow', 'PIL'),
+        ('matplotlib', 'matplotlib'),
+        ('seaborn', 'seaborn'),
+        ('sklearn', 'sklearn'),
+        ('jupyter', 'jupyter'),
+        ('flask', 'flask'),
+        ('flask_cors', 'flask_cors'),
+        ('requests', 'requests'),
+        ('tqdm', 'tqdm')
     ]
     
     missing = []
-    for package in required_packages:
+    for display_name, import_name in required_packages:
         try:
-            if package == 'sklearn':
-                __import__('sklearn')
-            elif package == 'flask_cors':
-                __import__('flask_cors')
-            else:
-                __import__(package)
-            print(f"  ✓ {package}")
+            __import__(import_name)
+            print(f"  ✓ {display_name}")
         except ImportError:
-            print(f"  ✗ {package} - MISSING")
-            missing.append(package)
+            print(f"  ✗ {display_name} - MISSING")
+            missing.append(display_name)
     
     return len(missing) == 0, missing
 
