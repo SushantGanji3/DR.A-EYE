@@ -143,7 +143,7 @@ def train_model(base_path, num_epochs=50, batch_size=32, learning_rate=0.001,
     # Loss and optimizer
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=learning_rate, weight_decay=1e-4)
-    scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=3, verbose=True)
+    scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=3)
     
     # Early stopping
     early_stopping = EarlyStopping(patience=patience)

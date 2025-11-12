@@ -4,6 +4,7 @@ ResNet-18 model for Diabetic Retinopathy classification
 import torch
 import torch.nn as nn
 import torchvision.models as models
+from torchvision.models import ResNet18_Weights
 
 
 class DiabeticRetinopathyModel(nn.Module):
@@ -18,7 +19,10 @@ class DiabeticRetinopathyModel(nn.Module):
         super(DiabeticRetinopathyModel, self).__init__()
         
         # Load pretrained ResNet-18
-        self.resnet = models.resnet18(pretrained=pretrained)
+        if pretrained:
+            self.resnet = models.resnet18(weights=ResNet18_Weights.IMAGENET1K_V1)
+        else:
+            self.resnet = models.resnet18(weights=None)
         
         # Replace the final fully connected layer
         num_features = self.resnet.fc.in_features
