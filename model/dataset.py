@@ -48,9 +48,32 @@ class DiabeticRetinopathyDataset(Dataset):
         return image, label
 
 
-def get_transforms(train=True):
-    """Get data transforms for training or validation"""
-    if train:
+def get_transforms(train=True, advanced=False):
+    """Get data transforms for training or validation
+    
+    Args:
+        train: Whether this is for training
+        advanced: Use advanced augmentation (for improved accuracy)
+    """
+    if advanced and train:
+        # Advanced augmentation for better accuracy
+        return transforms.Compose([
+            transforms.Resize((256, 256)),
+            transforms.RandomCrop(224),
+            transforms.RandomHorizontalFlip(p=0.5),
+            transforms.RandomVerticalFlip(p=0.5),
+            transforms.RandomRotation(degrees=20),
+            transforms.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.3, hue=0.1),
+            transforms.RandomAffine(degrees=0, translate=(0.1, 0.1), scale=(0.9, 1.1)),
+            transforms.RandomApply([
+                transforms.GaussianBlur(kernel_size=3, sigma=(0.1, 2.0))
+            ], p=0.3),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406], 
+                               std=[0.229, 0.224, 0.225]),
+            transforms.RandomErasing(p=0.2, scale=(0.02, 0.33))
+        ])
+    elif train:
         return transforms.Compose([
             transforms.Resize((224, 224)),
             transforms.RandomHorizontalFlip(p=0.5),
