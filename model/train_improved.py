@@ -14,12 +14,22 @@ from sklearn.utils.class_weight import compute_class_weight
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from model import DiabeticRetinopathyModel
-from dataset import get_dataloaders, prepare_data_splits
-from improve_accuracy import (
-    get_class_weights, create_weighted_sampler, FocalLoss,
-    get_advanced_transforms, get_advanced_optimizer, mixup_data, mixup_criterion
-)
+# Import from same directory
+try:
+    from .model import DiabeticRetinopathyModel
+    from .dataset import prepare_data_splits, DiabeticRetinopathyDataset
+    from .improve_accuracy import (
+        get_class_weights, create_weighted_sampler, FocalLoss,
+        get_advanced_transforms, get_advanced_optimizer, mixup_data, mixup_criterion
+    )
+except ImportError:
+    # If running as script
+    from model import DiabeticRetinopathyModel
+    from dataset import prepare_data_splits, DiabeticRetinopathyDataset
+    from improve_accuracy import (
+        get_class_weights, create_weighted_sampler, FocalLoss,
+        get_advanced_transforms, get_advanced_optimizer, mixup_data, mixup_criterion
+    )
 
 
 class EarlyStopping:
